@@ -1,0 +1,111 @@
+export default [
+  {
+    id: 1,
+    name: 'dashboard',
+    sidebarIndex: 1,
+  },
+  {
+    id: 2,
+    name: 'products--product_list',
+    sidebarIndex: 2,
+    tabbarIndex: 1,
+  },
+  {
+    id: 3,
+    name: 'orders',
+    sidebarIndex: 3,
+  },
+  {
+    id: 4,
+    name: 'customers',
+    sidebarIndex: 4,
+  },
+  {
+    id: 5,
+    name: 'configuration--customer_masters',
+    sidebarIndex: 5,
+    tabbarIndex: 1,
+  },
+  {
+    id: 6,
+    name: 'employees',
+    sidebarIndex: 6,
+  },
+  {
+    id: 7,
+    name: 'accounting-supplier_management--supplier_details',
+    sidebarIndex: 7,
+    sidebarStepOneIndex: 1,
+    tabbarIndex: 1,
+  },
+  {
+    id: 8,
+    name: 'accounting-customer_management',
+    sidebarIndex: 7,
+    sidebarStepOneIndex: 2,
+  },
+  {
+    id: 9,
+    name: 'accounting-payment_verification',
+    sidebarIndex: 7,
+    sidebarStepOneIndex: 3,
+  },
+  {
+    id: 10,
+    name: 'salesman-user_activity',
+    sidebarIndex: 8,
+    sidebarStepOneIndex: 1,
+  },
+  {
+    id: 11,
+    name: 'salesman-broadcast_messaging',
+    sidebarIndex: 8,
+    sidebarStepOneIndex: 2,
+  },
+  {
+    id: 12,
+    name: 'salesman-shop_details_and_feedback',
+    sidebarIndex: 8,
+    sidebarStepOneIndex: 3,
+  },
+  {
+    id: 13,
+    name: 'logistics-shipping_and_delivery',
+    sidebarIndex: 9,
+    sidebarStepOneIndex: 1,
+  },
+  {
+    id: 14,
+    name: 'logistics-tracking_and_history',
+    sidebarIndex: 9,
+    sidebarStepOneIndex: 2,
+  },
+  {
+    id: 15,
+    name: 'enquiry',
+    sidebarIndex: 10,
+  },
+  {
+    id: 16,
+    name: 'setting',
+    sidebarIndex: 11,
+  },
+  {
+    id: 17,
+    name: 'configuration--global',
+    sidebarIndex: 5,
+    tabbarIndex: 2,
+  },
+  {
+    id: 18,
+    name: 'configuration--custom_coupon_code',
+    sidebarIndex: 5,
+    tabbarIndex: 3,
+  },
+  {
+    id: 19,
+    name: 'products--purchase_history',
+    sidebarIndex: 2,
+    tabbarIndex: 2,
+  },
+];

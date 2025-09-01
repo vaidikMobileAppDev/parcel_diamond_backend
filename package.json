@@ -1,0 +1,40 @@
+{
+  "name": "parcel-diamonds",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write .",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://jatinwebappdev@github.com/unikwork/parcel_diamond_backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/unikwork/parcel_diamond_backend/issues"
+  },
+  "homepage": "https://github.com/unikwork/parcel_diamond_backend#readme",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.862.0",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "moment": "^2.30.1",
+    "multer": "^2.0.2",
+    "pg": "^8.16.3",
+    "rand-token": "^1.0.1",
+    "sequelize": "^6.37.7",
+    "validatorjs": "^3.22.1"
+  },
+  "devDependencies": {
+    "prettier": "3.6.2"
+  }
+}
