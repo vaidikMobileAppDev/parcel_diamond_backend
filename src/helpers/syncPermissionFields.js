@@ -128,7 +128,7 @@ const ManagePermissions = [
     backend_path: '/api/v1/admin/order/get-all-orders',
     tableName: [Order],
     exclude: [],
-    include: ["show_customer_details"],
+    include: ["show_customer_details","show_shipping_address_details","show_billing_address_details"],
   },
   {
     backend_path: '/api/v1/admin/order/details',

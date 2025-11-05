@@ -1503,6 +1503,12 @@ export const getDiamondsGroupedByGrade = async (req, res) => {
       required: false,
       where: {
         isAvailableForStore: false, // Only packets NOT available for store
+        current_status: {
+          [Op.or]: [
+            { [Op.eq]: 'available' },
+            { [Op.eq]: null },
+          ]
+        }
       },
     };
 
@@ -1796,6 +1802,7 @@ export const getDiamondsGroupedByGrade = async (req, res) => {
         WHERE diamond_packets.lot = "DiamondLot"."id"
         AND diamond_packets."isAvailableForStore" = false
         AND diamond_packets."deletedAt" IS NULL
+        AND (diamond_packets."current_status" = 'available' OR diamond_packets."current_status" IS NULL)
       )`
     );
 
@@ -1807,6 +1814,7 @@ export const getDiamondsGroupedByGrade = async (req, res) => {
         AND diamond_packets."isAvailableForStore" = false
         AND diamond_packets."deletedAt" IS NULL
         AND diamond_packets.weight = 0.25
+        AND (diamond_packets."current_status" = 'available' OR diamond_packets."current_status" IS NULL)
       )`
     );
 
@@ -1818,6 +1826,7 @@ export const getDiamondsGroupedByGrade = async (req, res) => {
         AND diamond_packets."isAvailableForStore" = false
         AND diamond_packets."deletedAt" IS NULL
         AND diamond_packets.weight = 0.50
+        AND (diamond_packets."current_status" = 'available' OR diamond_packets."current_status" IS NULL)
       )`
     );
 
@@ -1829,6 +1838,40 @@ export const getDiamondsGroupedByGrade = async (req, res) => {
         AND diamond_packets."isAvailableForStore" = false
         AND diamond_packets."deletedAt" IS NULL
         AND diamond_packets.weight = 1.00
+        AND (diamond_packets."current_status" = 'available' OR diamond_packets."current_status" IS NULL)
+      )`
+    );
+
+    const zeroPointTwentyFiveCountLiteralForDealloc = Sequelize.literal(
+      `(
+        SELECT COUNT(*)
+        FROM diamond_packets
+        WHERE diamond_packets.lot = "DiamondLot"."id"
+        AND diamond_packets."isAvailableForStore" = true
+        AND diamond_packets.weight = 0.25
+        AND (diamond_packets."current_status" = 'available' OR diamond_packets."current_status" IS NULL)
+      )`
+    );
+
+    const zeroPointFiftyCountLiteralForDealloc = Sequelize.literal(
+      `(
+        SELECT COUNT(*)
+        FROM diamond_packets
+        WHERE diamond_packets.lot = "DiamondLot"."id"
+        AND diamond_packets."isAvailableForStore" = true
+        AND diamond_packets.weight = 0.50
+        AND (diamond_packets."current_status" = 'available' OR diamond_packets."current_status" IS NULL)
+      )`
+    );
+
+    const oneCaratCountLiteralForDealloc = Sequelize.literal(
+      `(
+        SELECT COUNT(*)
+        FROM diamond_packets
+        WHERE diamond_packets.lot = "DiamondLot"."id"
+        AND diamond_packets."isAvailableForStore" = true
+        AND diamond_packets.weight = 1.00
+        AND (diamond_packets."current_status" = 'available' OR diamond_packets."current_status" IS NULL)
       )`
     );
 
@@ -1844,6 +1887,9 @@ export const getDiamondsGroupedByGrade = async (req, res) => {
           ],
           [zeroPointFiftyCountLiteral, 'availableZeroPointFiftyPacketCount'],
           [oneCaratCountLiteral, 'availableOneCaratPacketCount'],
+          [zeroPointTwentyFiveCountLiteralForDealloc, 'deallocateZeroPointTwentyFivePacketCount'],
+          [zeroPointFiftyCountLiteralForDealloc, 'deallocateZeroPointFiftyPacketCount'],
+          [oneCaratCountLiteralForDealloc, 'deallocateOneCaratPacketCount'],
         ],
         exclude: ['purchase', 'grade', 'sieveSize'],
       },
@@ -1895,29 +1941,18 @@ export const getDiamondsGroupedByGrade = async (req, res) => {
         };
         gradeEntry.sieves.push(sieveEntry);
       }
+      
+      // lot.deallocateZeroPointTwentyFivePacketCount = Math.abs(
+      //   lot?.zeroPointTwentyFivePacketCount -
+      //   lot?.availableZeroPointTwentyFivePacketCount
+      // );
+      // lot.deallocateZeroPointFiftyPacketCount = Math.abs(
+      //   lot?.zeroPointFiftyPacketCount - lot?.availableZeroPointFiftyPacketCount
+      // );
+      // lot.deallocateOneCaratPacketCount = Math.abs(
+      //   lot?.oneCaratPacketCount - lot?.availableOneCaratPacketCount
+      // );
 
-      lot.deallocateZeroPointTwentyFivePacketCount = Math.abs(
-        lot?.zeroPointTwentyFivePacketCount -
-        lot?.availableZeroPointTwentyFivePacketCount
-      );
-      lot.deallocateZeroPointFiftyPacketCount = Math.abs(
-        lot?.zeroPointFiftyPacketCount - lot?.availableZeroPointFiftyPacketCount
-      );
-      lot.deallocateOneCaratPacketCount = Math.abs(
-        lot?.oneCaratPacketCount - lot?.availableOneCaratPacketCount
-      );
-
-      lot.deallocateZeroPointTwentyFivePacketCount = Math.abs(
-        lot?.zeroPointTwentyFivePacketCount -
-        lot?.availableZeroPointTwentyFivePacketCount
-      );
-      lot.deallocateZeroPointFiftyPacketCount = Math.abs(
-        lot?.zeroPointFiftyPacketCount - lot?.availableZeroPointFiftyPacketCount
-      );
-      lot.deallocateOneCaratPacketCount = Math.abs(
-        lot?.oneCaratPacketCount - lot?.availableOneCaratPacketCount
-      );
-     
       sieveEntry.lots.push(lot);
 
       const lotWeight = parseFloat(lot.totalWeight || 0);

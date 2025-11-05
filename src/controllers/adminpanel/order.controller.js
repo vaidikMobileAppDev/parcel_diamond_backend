@@ -27,6 +27,11 @@ const getAllOrders = async (req, res) => {
           attributes :  ['id', 'email','name', 'lastName','phone_no','company_name','country','state','city','pincode']
         },
         {
+          model: db.Order_address,
+          as: 'orderAddressDetail',
+          attributes :  ['id', 'type','first_name', 'last_name', 'email','mobileno', 'company_name', 'address_1', 'address_2', 'country', 'state', 'city', 'pincode']
+        },
+        {
           model: db.Order_status_caption,
           as: 'orderStatusDetail',
           attributes : ['id', 'name', 'admin_caption']
@@ -72,7 +77,24 @@ const getAllOrders = async (req, res) => {
         },
       ]
     });
-    return successResponse(res, 6008, orders);
+
+    const finalData = orders.map((order) => {
+       const o = order.toJSON()
+      let billing_address = {};
+      let shipping_address = {};
+
+      if (o.orderAddressDetail) {
+        billing_address = o.orderAddressDetail.find((address) => address.type === 'billing' || address.type === 'both');
+        shipping_address = o.orderAddressDetail.find((address) => address.type === 'shipping' || address.type === 'both');
+      }      
+      delete o.orderAddressDetail;
+      return {
+        ...o,        
+        billing_address,
+        shipping_address
+      };
+    })
+    return successResponse(res, 6008, finalData);
   } catch (err) {
     console.log('err :>> ', err);
     return errorResponse(res, err.message || err);
@@ -95,6 +117,11 @@ const getOrderDetails = async (req, res) => {
                         model: db.Order_status_caption,
                         as: 'orderStatusDetail',
                         attributes : ['id', 'name','admin_caption']
+                      },
+                      {
+                        model: db.Order_address,
+                        as: 'orderAddressDetail',
+                        attributes :  ['id', 'type','first_name', 'last_name', 'email','mobileno', 'company_name', 'address_1', 'address_2', 'country', 'state', 'city', 'pincode']
                       },
                       {
                         model: db.Order_packet_detail,
@@ -141,7 +168,18 @@ const getOrderDetails = async (req, res) => {
     if (!order) {
       return errorResponse(res, 6010);
     }
-    return successResponse(res, 6009, order);
+    const orderData = order.toJSON();
+    const billing_address = orderData?.orderAddressDetail.find((address) => address.type === 'billing' || address.type === 'both');
+    const shipping_address = orderData?.orderAddressDetail.find((address) => address.type === 'shipping' || address.type === 'both');
+    
+    delete orderData.orderAddressDetail;
+    const finalData = {
+      ...orderData,
+      billing_address,
+      shipping_address,
+    };    
+
+    return successResponse(res, 6009, finalData);
   } catch (err) {
     console.log('err :>> ', err);
     return errorResponse(res, err.message || err);

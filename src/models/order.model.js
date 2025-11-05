@@ -103,6 +103,11 @@ export default (sequelize, Sequelize) => {
       as: 'orderStatusDetail',
     });
 
+    Order.hasMany(models.Order_address, {
+      foreignKey: 'order_id',
+      as: 'orderAddressDetail',
+    });
+
   };
 
   return Order;

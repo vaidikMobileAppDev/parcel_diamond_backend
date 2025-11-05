@@ -301,12 +301,12 @@ const placeOrder = async (req, res) => {
                                   isUnpacked: false,
                                   isAvailableForStore: true,
                                   remainingWeight: { [Op.gt]: 0 },
-                                  current_status : { 
+                                  current_status: {
                                     [Op.or]: [
-                                      { [Op.notIn]: ['sold'] },
-                                      { [Op.is]: null },
-                                    ],
-                                  },
+                                      { [Op.eq]: 'available' },
+                                      { [Op.eq]: null },
+                                    ]
+                                  }
                                 },
                                 limit: needed,
                                 order: [priorityOrderLiteral, ['createdAt', 'ASC']],

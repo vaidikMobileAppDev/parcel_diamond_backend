@@ -109,6 +109,12 @@ const getStoreAvailablePackets = async (req, res) => {
       isAvailableForStore: true,
       isUnpacked: false,
       remainingWeight: { [Op.gt]: 0 },
+      current_status: {
+        [Op.or]: [
+          { [Op.eq]: 'available' },
+          { [Op.eq]: null },
+        ]
+      }
     };
 
     if (locationId) packetWhere.location = Number(locationId);
@@ -433,6 +439,12 @@ const getStoreAvailablePacketById = async (req, res) => {
       isAvailableForStore: true,
       isUnpacked: false,
       remainingWeight: { [Op.gt]: 0 },
+      current_status: {
+        [Op.or]: [
+          { [Op.eq]: 'available' },
+          { [Op.eq]: null },
+        ]
+      }
     };
 
     if (locationId) packetWhere.location = Number(locationId);
