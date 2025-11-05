@@ -6,13 +6,16 @@ export default (sequelize, Sequelize) => {
       allowNull: false,
       primaryKey: true,
     },
-    country_name: {
+    name: {
       type: Sequelize.STRING,
     },
     code: {
       type: Sequelize.STRING,
     },
     dial_code: {
+      type: Sequelize.STRING,
+    },
+    currency: {
       type: Sequelize.STRING,
     },
     is_deleted: {
@@ -31,5 +34,19 @@ export default (sequelize, Sequelize) => {
       allowNull: false,
     },
   });
+
+   Countries.associate = (models) => {
+    Countries.hasOne(models.RegionCountry, {
+      foreignKey: 'country',
+      as: 'regionCountryDetail',
+    });  
+    
+     Countries.hasOne(models.Location, {
+      foreignKey: 'country',
+      as: 'LocationDetail',
+    });
+
+  };
+
   return Countries;
 };

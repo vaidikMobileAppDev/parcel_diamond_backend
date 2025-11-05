@@ -32,4 +32,17 @@ export default {
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     url: process.env.AWS_BUCKET_URL,
   },
+  dhl: {
+    username: process.env.DHL_CLIENT_ID,
+    password: process.env.DHL_CLIENT_SECRET,
+    tokenUrl: process.env.DHL_TOKEN_URL,
+    shippRateUrl: process.env.DHL_SHIPPING_RATE_URL,
+  },
+  fedex: {
+    username: process.env.FEDEX_CLIENT_ID,
+    password: process.env.FEDEX_CLIENT_SECRET,
+    tokenUrl: process.env.FEDEX_TOKEN_URL,
+    shippRateUrl: process.env.FEDEX_SHIPPING_RATE_URL,
+    accountNumber: process.env.FEDEX_ACCOUNT_NUMBER,
+  }
 };

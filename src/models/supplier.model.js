@@ -14,11 +14,19 @@ export default (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
     },
+    supplier_country_code: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
     supplier_phone_no: {
       type: Sequelize.STRING,
       allowNull: false,
     },
     contact_person_name: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    contact_person_country_code: {
       type: Sequelize.STRING,
       allowNull: false,
     },

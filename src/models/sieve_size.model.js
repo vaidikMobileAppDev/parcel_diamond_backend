@@ -6,6 +6,14 @@ export default (sequelize, Sequelize) => {
       allowNull: false,
       primaryKey: true,
     },
+    shape_id: {
+      type: Sequelize.BIGINT,
+      allowNull: false,
+      references: {
+        model: 'shapes',
+        key: 'id',
+      },
+    },
     size: {
       type: Sequelize.STRING,
     },
@@ -25,5 +33,13 @@ export default (sequelize, Sequelize) => {
       allowNull: false,
     },
   });
+
+  SieveSize.associate = (models) => {
+    SieveSize.belongsTo(models.Shape, {
+      foreignKey: 'shape_id',
+      as: 'shapeDetail',
+    });
+  };
+
   return SieveSize;
 };

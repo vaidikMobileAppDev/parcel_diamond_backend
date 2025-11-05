@@ -59,6 +59,11 @@ export default (sequelize, Sequelize) => {
         allowNull: false,
         defaultValue: false,
       },
+      currency_id: {
+        type: Sequelize.BIGINT,
+        allowNull: true,
+        // defaultValue: 1,
+      },
       createdAt: {
         field: 'created_at',
         type: Sequelize.DATE,
@@ -74,6 +79,13 @@ export default (sequelize, Sequelize) => {
       tableName: 'admins',
     }
   );
+
+  Admin.associate = (models) => {
+    Admin.belongsTo(models.GlobalPrice, {
+      foreignKey: 'currency_id',
+      as: 'currencyDetails',
+    });   
+  };
 
   return Admin;
 };

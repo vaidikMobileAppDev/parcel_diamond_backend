@@ -10,6 +10,7 @@ const {
   EmployeePermissions,
   AdminPanelPermissions,
   Roles,
+  GlobalPrice,
   Op,
 } = db;
 
@@ -27,14 +28,21 @@ const login = async (req, res) => {
       );
       return errorResponse(res, firstMessage);
     }
-    const { email, password, device_id } = req.body;
+    const { email, password, device_id, device_type } = req.body;
 
     const checkExistAdmin = await Admin.findOne({
       where: {
         email: email,
       },
+      include: [
+        {
+          model: GlobalPrice,
+          as: 'currencyDetails',
+          attributes: ['id', 'currency', 'price', 'sign', 'caption'],
+        },
+      ],
     });
-
+    
     if (!checkExistAdmin) {
       return errorResponse(res, 1003);
     }
@@ -53,13 +61,15 @@ const login = async (req, res) => {
       return errorResponse(res, 1004);
     }
 
-    const sessionToken = await AdminSession.createSessionToken(
-      checkExistAdmin.id,
-      device_id
-    );
     const refreshToken = await AdminSession.createToken(
       checkExistAdmin.id,
-      device_id
+      device_id,
+      device_type
+    );
+    const sessionToken = await AdminSession.createSessionToken(
+      checkExistAdmin.id,
+      device_id,
+      device_type
     );
     const getPermissionList = await getPermission(
       checkExistAdmin.id,
@@ -74,6 +84,7 @@ const login = async (req, res) => {
       permissionList: getPermissionList.data,
       sessionToken,
       refreshToken,
+      currencyDetails: checkExistAdmin?.currencyDetails?.dataValues || null,
     };
     return successResponse(res, 1001, response);
   } catch (error) {

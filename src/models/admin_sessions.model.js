@@ -73,7 +73,7 @@ export default (sequelize, Sequelize) => {
   );
 
   //Refer : https://stackoverflow.com/a/50291209/7493808
-  AdminSession.createSessionToken = async (adminId, device_id) => {
+  AdminSession.createSessionToken = async (adminId, device_id, device_type) => {
     const sessionToken = jwt.sign(
       { token: adminId + suid(99) },
       config.jwt.secret,
@@ -89,12 +89,13 @@ export default (sequelize, Sequelize) => {
         where: {
           admin_id: adminId,
           device_id: device_id,
+          device_type: device_type,
         },
       }
     );
     return sessionToken;
   };
-  AdminSession.createToken = async (adminId, device_id) => {
+  AdminSession.createToken = async (adminId, device_id, device_type) => {
     const refreshToken = jwt.sign(
       { id: adminId, token: adminId + suid(99) },
       config.jwt.secret,
@@ -106,6 +107,7 @@ export default (sequelize, Sequelize) => {
       where: {
         admin_id: adminId,
         device_id: device_id,
+        device_type: device_type,
       },
     });
     if (checkExistDevice) {
@@ -117,6 +119,7 @@ export default (sequelize, Sequelize) => {
           where: {
             admin_id: adminId,
             device_id: device_id,
+            device_type: device_type,
           },
         }
       );
@@ -125,6 +128,7 @@ export default (sequelize, Sequelize) => {
         token: refreshToken,
         admin_id: adminId,
         device_id: device_id,
+        device_type: device_type,
       });
     }
     return refreshToken;

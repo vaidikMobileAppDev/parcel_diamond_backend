@@ -5,6 +5,7 @@ import customerController from '../../controllers/adminpanel/customer.controller
 import { adminPanelAuth } from '../../middleware/adminPanelAuth.js';
 routes.post('/add', adminPanelAuth, customerController.addCustomer);
 routes.get('/get', adminPanelAuth, customerController.getCustomerList);
+routes.get('/get-customer-carts', adminPanelAuth, customerController.getCustomerWithCart);
 routes.put(
   '/update-status',
   adminPanelAuth,

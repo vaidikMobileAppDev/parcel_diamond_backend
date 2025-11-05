@@ -17,6 +17,10 @@ export default (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: true,
     },
+    lastName: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
     country_code: {
       type: Sequelize.STRING,
       allowNull: true,
@@ -26,6 +30,22 @@ export default (sequelize, Sequelize) => {
       allowNull: true,
     },
     country: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    state: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    state: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    city: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    pincode: {
       type: Sequelize.STRING,
       allowNull: true,
     },
@@ -41,11 +61,15 @@ export default (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: true,
     },
-    business_class_code: {
-      type: Sequelize.STRING,
-      allowNull: true,
-    },
-    business_class_name: {
+    // business_class_code: {
+    //   type: Sequelize.STRING,
+    //   allowNull: true,
+    // },
+    // business_class_name: {
+    //   type: Sequelize.STRING,
+    //   allowNull: true,
+    // },
+    business_country_code: {
       type: Sequelize.STRING,
       allowNull: true,
     },
@@ -57,22 +81,22 @@ export default (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: true,
     },
-    business_card: {
-      type: Sequelize.STRING,
-      allowNull: true,
-    },
-    business_certificate: {
-      type: Sequelize.STRING,
-      allowNull: true,
-    },
+    // business_card: {
+    //   type: Sequelize.STRING,
+    //   allowNull: true,
+    // },
+    // business_certificate: {
+    //   type: Sequelize.STRING,
+    //   allowNull: true,
+    // },
     note: {
       type: Sequelize.TEXT,
       allowNull: true,
     },
-    display_order: {
-      type: Sequelize.TEXT,
-      allowNull: true,
-    },
+    // display_order: {
+    //   type: Sequelize.TEXT,
+    //   allowNull: true,
+    // },
     shipping_address: {
       type: Sequelize.TEXT,
       allowNull: true,
@@ -152,6 +176,13 @@ export default (sequelize, Sequelize) => {
       allowNull: false,
     },
   });
+
+   Customer.associate = (models) => {
+    Customer.hasMany(models.CustomerCartItem, {
+      foreignKey: 'customer',
+      as: 'cartItems',
+    });    
+  };
 
   return Customer;
 };

@@ -12,8 +12,10 @@ const addSupplier = async (req, res) => {
     const validation = new Validator(req.body, {
       supplier_name: 'required',
       supplier_email: 'required|email',
+      supplier_country_code: 'required',
       supplier_phone_no: 'required',
       contact_person_name: 'required',
+      contact_person_country_code: 'required',
       contact_person_phone_no: 'required',
       contact_person_email: 'required|email',
       kyc_date: 'required',
@@ -29,8 +31,10 @@ const addSupplier = async (req, res) => {
     const {
       supplier_name,
       supplier_email,
+      supplier_country_code,
       supplier_phone_no,
       contact_person_name,
+      contact_person_country_code,
       contact_person_phone_no,
       contact_person_email,
       kyc_date,
@@ -50,8 +54,10 @@ const addSupplier = async (req, res) => {
     const supplier = await Supplier.create({
       supplier_name: supplier_name,
       supplier_email: supplier_email,
+      supplier_country_code: supplier_country_code,
       supplier_phone_no: supplier_phone_no,
       contact_person_name: contact_person_name,
+      contact_person_country_code: contact_person_country_code,
       contact_person_phone_no: contact_person_phone_no,
       contact_person_email: contact_person_email,
       kyc_date: kyc_date,
@@ -83,10 +89,10 @@ const getSupplier = async (req, res) => {
       where: {
         ...(search && {
           [Op.or]: [
-            { supplier_name: { [Op.like]: `%${search}%` } },
-            { supplier_email: { [Op.like]: `%${search}%` } },
-            { contact_person_name: { [Op.like]: `%${search}%` } },
-            { contact_person_email: { [Op.like]: `%${search}%` } },
+            { supplier_name: { [Op.substring]: `%${search}%` } },
+            { supplier_email: { [Op.substring]: `%${search}%` } },
+            { contact_person_name: { [Op.substring]: `%${search}%` } },
+            { contact_person_email: { [Op.substring]: `%${search}%` } },
           ],
         }),
         ...(category && { category: category }),

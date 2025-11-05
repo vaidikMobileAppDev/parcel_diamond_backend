@@ -13,21 +13,32 @@ export default (sequelize, Sequelize) => {
         this.setDataValue('currency', value.toLowerCase());
       },
     },
+    sign : {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    caption : {
+      type: Sequelize.STRING,
+      allowNull: true,
+      set(value) {
+        this.setDataValue('caption', value.toUpperCase());
+      },
+    },
     price: {
       type: Sequelize.DECIMAL(11, 2),
       allowNull: false,
     },
-    compare_currency: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      set(value) {
-        this.setDataValue('compare_currency', value.toLowerCase());
-      },
-    },
-    compare_price: {
-      type: Sequelize.DECIMAL(11, 2),
-      allowNull: false,
-    },
+    // base_currency: {
+    //   type: Sequelize.STRING,
+    //   allowNull: false,
+    //   set(value) {
+    //     this.setDataValue('base_currency', value.toLowerCase());
+    //   },
+    // },
+    // base_price: {
+    //   type: Sequelize.DECIMAL(11, 2),
+    //   allowNull: false,
+    // },
     status: {
       type: Sequelize.BOOLEAN,
       allowNull: false,

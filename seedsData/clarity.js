@@ -1,11 +1,11 @@
 export default [
   {
     id: 1,
-    clarity: 'flawless',
+    clarity: 'fl',
   },
   {
     id: 2,
-    clarity: 'internally_flawless',
+    clarity: 'if',
   },
   {
     id: 3,
@@ -29,7 +29,7 @@ export default [
   },
   {
     id: 8,
-    clarity: 'si1',
+    clarity: 'si2',
   },
   {
     id: 9,
@@ -42,5 +42,25 @@ export default [
   {
     id: 11,
     clarity: 'i3',
+  },
+  {
+    id: 12,
+    clarity: 'vvs',
+  },
+  {
+    id: 13,
+    clarity: 'vs',
+  },
+  {
+    id: 14,
+    clarity: 'si',
+  },
+  {
+    id: 15,
+    clarity: 'i1-2',
+  },
+  {
+    id: 16,
+    clarity: 'pk',
   },
 ];

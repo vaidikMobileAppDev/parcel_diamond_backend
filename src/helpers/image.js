@@ -43,7 +43,7 @@ const uploadFile = async (file, folder) => {
     fs.mkdirSync(`public`);
   }
   if (!fs.existsSync(`public/${folder}`)) {
-    fs.mkdirSync(`public/${folder}`);
+    fs.mkdirSync(`public/${folder}`, { recursive: true });
   }
   fs.writeFileSync(`public/${folder}/${fileNewName}`, file.buffer);
   try {

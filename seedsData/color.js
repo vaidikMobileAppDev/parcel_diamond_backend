@@ -22,4 +22,7 @@ export default [
   { id: 21, color: 'x' },
   { id: 22, color: 'y' },
   { id: 23, color: 'z' },
+  { id: 24, color: 'def' },
+  { id: 25, color: 'gh' },
+  { id: 26, color: 'ij' },
 ];

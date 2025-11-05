@@ -5,7 +5,7 @@ const auditLogger = async (req, res, next) => {
   try {
     // const userId = req.user ? req.user.id : null; // set by auth middleware
 
-    await AuditLog.create({
+    const createdAuditLog = await AuditLog.create({
       //   userId,
       method: req.method,
       baseUrl: req.baseUrl,
@@ -14,6 +14,8 @@ const auditLogger = async (req, res, next) => {
       query: req.query,
       params: req.params,
     });
+
+    req.auditLog = createdAuditLog;
   } catch (err) {
     console.error('Audit log error:', err);
   }
