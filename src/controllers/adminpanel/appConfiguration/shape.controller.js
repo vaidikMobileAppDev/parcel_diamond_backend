@@ -8,9 +8,11 @@ const { Op, Shape } = db;
 
 const getShape = async (req, res) => {
   try {
+    const { status } = req.query;
     const allShape = await Shape.findAll({
       where: {
         is_deleted: false,
+        ...(status && { status }),
       },
     });
     return successResponse(res, 9104, { allShape });
@@ -52,18 +54,16 @@ const updateShape = async (req, res) => {
       );
       return errorResponse(res, firstMessage);
     }
-    const { shape, id } = req.body;
+    const { shape, id, status } = req.body;
 
-    const addedClarity = await Shape.update(
-      {
-        shape: shape,
-      },
-      {
-        where: {
-          id: id,
-        },
-      }
-    );
+    let updData = { shape: shape }
+
+    if(status){
+      updData = { ...updData, status }
+    }
+
+    await Shape.update( updData, { where: { id: id, }, } );
+    
     return successResponse(res, 9122);
   } catch (error) {
     return errorResponse(res, 9999, error);

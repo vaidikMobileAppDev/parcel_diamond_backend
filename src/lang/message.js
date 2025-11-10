@@ -29,6 +29,7 @@ const MESSAGE = {
   3012: 'Configuration global price already exist.',
   3013: 'Currency Set as Default.',
 
+
   4001: 'Supplier created successfully.',
   4002: 'Supplier already exist.',
   4003: 'Supplier list loaded successfully.',
@@ -90,6 +91,26 @@ const MESSAGE = {
   6013: 'You can only cancel an order within 24 hours.',
   6014: 'your order is already Shipped. You can not cancel this order.',
   6015: 'your order has been cancelled successfully.',
+
+  7001: 'Enquiry added successfully.',
+  7002: 'Enquiry(s) loaded successfully.',
+  7003: 'Enquiry updated successfully.',
+  7004: 'Enquiry deleted successfully.',
+
+  7101: 'Subscriber added successfully.',
+  7102: 'Subscriber already exist.',
+  7103: 'Subscriber(s) loaded successfully.',
+  7104: 'Subscriber updated successfully.',
+  7105: 'Subscriber deleted successfully.',
+  7106: 'Subscriber not found.',
+  7107: 'Unsubscribed successfully.',
+
+  7201: 'FAQ created successfully.',
+  7202: 'FAQ(s) loaded successfully.',
+  7203: 'FAQ updated successfully.',
+  7204: 'FAQ deleted successfully.',
+  7205: 'FAQ loaded successfully.',
+  7206: 'FAQ not found.',
 
   9001: 'Unauthorized',
   9002: 'Your account was deleted.',
@@ -158,6 +179,7 @@ const MESSAGE = {
   9156: 'Packet status updated successfully.',
   9157: 'Packet status deleted successfully.',
   9158: 'Packet status not found. please check id.',
+  9159: 'Price Per Carat by region loaded successfully.',
 
   9998: 'validation failed.',
   9999: 'Something went wrong.',

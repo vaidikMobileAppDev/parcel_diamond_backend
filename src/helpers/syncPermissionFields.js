@@ -20,7 +20,10 @@ const {
   Order,
   Order_address,
   Order_packet_detail,
-  Order_payment
+  Order_payment,
+  GeneralEnquiry,
+  NewsletterSubscriber,
+  Faqs
 } = db;
 
 const ManagePermissions = [
@@ -128,11 +131,41 @@ const ManagePermissions = [
     backend_path: '/api/v1/admin/order/get-all-orders',
     tableName: [Order],
     exclude: [],
-    include: ["show_customer_details","show_shipping_address_details","show_billing_address_details"],
+    include: ["show_customer_details", "show_shipping_address_details", "show_billing_address_details"],
   },
   {
     backend_path: '/api/v1/admin/order/details',
     tableName: [Order],
+    exclude: [],
+    include: [],
+  },
+  {
+    backend_path: '/api/v1/admin/enquiry--diamond_enquiry/get',
+    tableName: [GeneralEnquiry],
+    exclude: [],
+    include: [],
+  },
+  {
+    backend_path: '/api/v1/admin/news_letter/get',
+    tableName: [NewsletterSubscriber],
+    exclude: [],
+    include: [],
+  },
+  {
+    backend_path: '/api/v1/admin/faqs/get',
+    tableName: [Faqs],
+    exclude: [],
+    include: [],
+  },
+  {
+    backend_path: '/api/v1/admin/configuration--price_per_carat/get-all-price-per-carat-region',
+    tableName: [PricePerCaratRegion],
+    exclude: [],
+    include: [],
+  },
+  {
+    backend_path: '/api/v1/admin/products--product_list/diamond/list-excel',
+    tableName: [DiamondPacket, DiamondLot, DiamondGrade, DiamondPurchase],
     exclude: [],
     include: [],
   },

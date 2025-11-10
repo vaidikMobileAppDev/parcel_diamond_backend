@@ -29,8 +29,13 @@ routes.delete(
 );
 routes.get(
   '/get',
-  adminPanelAuthWithoutPermission,
+    adminPanelAuth,
   pricePerCaratRegionController.getPricePerCaratRegion
+);
+routes.get(
+  '/get-all-price-per-carat-region',
+    adminPanelAuth,
+  pricePerCaratRegionController.getAllPricePerCTRegion
 );
 
 export default routes;

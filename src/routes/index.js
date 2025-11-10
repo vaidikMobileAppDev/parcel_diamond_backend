@@ -7,4 +7,7 @@ routes.use('/admin', adminRoutes);
 import customerRoutes from './customerPanel/index.js';
 routes.use('/customer', customerRoutes);
 
+import publicRoutes from './public/index.js';
+routes.use('/public', publicRoutes);
+
 export default routes;

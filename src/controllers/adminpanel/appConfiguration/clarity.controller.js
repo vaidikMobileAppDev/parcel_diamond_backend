@@ -8,9 +8,11 @@ const { Op, Clarity } = db;
 
 const getClarity = async (req, res) => {
   try {
+    const { status } = req.query;
     const allClarity = await Clarity.findAll({
       where: {
         is_deleted: false,
+        ...(status && { status }),
       },
     });
     return successResponse(res, 9105, { allClarity });
@@ -52,18 +54,16 @@ const updateClarity = async (req, res) => {
       );
       return errorResponse(res, firstMessage);
     }
-    const { clarity, id } = req.body;
+    const { clarity, id, status } = req.body;
 
-    const addedClarity = await Clarity.update(
-      {
-        clarity: clarity,
-      },
-      {
-        where: {
-          id: id,
-        },
-      }
-    );
+    let updData = { clarity };
+
+    if(status){
+      updData = { ...updData, status };
+    }
+
+    await Clarity.update(updData, { where: { id: id } });
+    
     return successResponse(res, 9113);
   } catch (error) {
     return errorResponse(res, 9999, error);

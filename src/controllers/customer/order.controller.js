@@ -16,7 +16,8 @@ const {
   Customer,
   Customer_address,
   Country,
-  PricePerCaratRegion
+  PricePerCaratRegion,
+  CustomerCartItem
 } = db;
 
 const placeOrder = async (req, res) => {
@@ -286,6 +287,7 @@ const placeOrder = async (req, res) => {
 
          const selectedPacket = [];
          const selectedPacketIds = [];
+         const lotIds = Array.from(lotIdsSet);
 
          for (const { lotId, sizeKey, needed } of needMap.values()) {
             const meta = SIZE_META[sizeKey];
@@ -374,7 +376,21 @@ const placeOrder = async (req, res) => {
             // await DiamondPacket.update({ isAvailableForStore: false, availableSince: null, availableBy: null,status_id : SoldStatusId }, { where: { id: packetId }, transaction: t });
          }    
          // Add Packet detail in Order Packet Detail Table End
-        
+
+     const count = await CustomerCartItem.count({
+                    where: {
+                      customer: userId,
+                      lot: {
+                        [Op.in]: lotIds
+                      }
+                    },
+                    transaction: t
+                  });   
+      
+    if(count > 0){
+      await CustomerCartItem.destroy({ where: { customer: userId }, transaction: t });    
+    }
+
     await t.commit();
     return successResponse(res, 6001, selectedPacket);
   } catch (err) {

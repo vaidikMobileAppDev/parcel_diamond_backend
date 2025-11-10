@@ -9,6 +9,11 @@ export default (sequelize, Sequelize) => {
     color: {
       type: Sequelize.STRING,
     },
+    status: {
+      type: Sequelize.ENUM('active', 'inactive'),
+      allowNull: false,
+      defaultValue: 'active',
+    },
     is_deleted: {
       type: Sequelize.BOOLEAN,
       allowNull: false,

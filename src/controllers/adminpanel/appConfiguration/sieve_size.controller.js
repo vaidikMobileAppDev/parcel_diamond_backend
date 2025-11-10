@@ -8,11 +8,12 @@ const { Op, SieveSize, Shape } = db;
 
 const getSieveSize = async (req, res) => {
   try {
-    const { shape_id } = req.query;
+    const { shape_id, status } = req.query;
     const allSieveSize = await SieveSize.findAll({
       where: {
         is_deleted: false,
         ...(shape_id && { shape_id: shape_id }),
+        ...(status && { status }),
       },
       include: [
         {
@@ -65,19 +66,15 @@ const updateSieveSize = async (req, res) => {
       );
       return errorResponse(res, firstMessage);
     }
-    const { size, shape_id, id } = req.body;
+    const { size, shape_id, id, status } = req.body;
+    
+     let updData = { size, shape_id };
 
-    const addedClarity = await SieveSize.update(
-      {
-        size,
-        shape_id,
-      },
-      {
-        where: {
-          id: id,
-        },
-      }
-    );
+    if(status){
+      updData = { ...updData, status };
+    }
+
+    await SieveSize.update( updData, { where: { id: id} });
     return successResponse(res, 9125);
   } catch (error) {
     return errorResponse(res, 9999, error);

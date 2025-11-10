@@ -39,6 +39,15 @@ routes.use('/configuration--order_status_caption', orderStatusCaptionRoutes);
 import packetStatusRoutes from './appConfiguration/packet_status.routes.js';
 routes.use('/configuration--packet_status', packetStatusRoutes);
 
+import faqsRoutes from './faqs.routes.js';
+routes.use('/faqs', faqsRoutes);
+
+import enquiryRoutes from './enquiry.routes.js';
+routes.use('/enquiry--diamond_enquiry', enquiryRoutes);
+routes.use('/enquiry--general_enquiry', enquiryRoutes);
+
+import newsLatterRoutes from './newsLetter.routes.js';
+routes.use('/news_letter', newsLatterRoutes);
 
 import supplierRoutes from './supplier.routes.js';
 routes.use('/accounting-supplier_management--supplier_details', supplierRoutes);

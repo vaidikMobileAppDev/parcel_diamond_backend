@@ -1520,37 +1520,10 @@ export const getDiamondsGroupedByGrade = async (req, res) => {
       includeGrade.required = true;
     }
 
-    if (purchaseLocationId) {
-      includePurchase.where = {
-        ...(includePurchase.where || {}),
-        purchaseLocation: purchaseLocationId,
-      };
-      includePurchase.required = true;
-    }
-    if (isOnBookFlag) {
-      includePurchase.where = {
-        ...(includePurchase.where || {}),
-        isOnBook: isOnBookFlag,
-      };
-      includePurchase.required = true;
-    }
+   
+  
 
-    if (dateField === 'purchaseDate' && (startDate || endDate)) {
-      includePurchase.where = includePurchase.where || {};
-      if (startDate)
-        includePurchase.where.purchaseDate = {
-          ...(includePurchase.where.purchaseDate || {}),
-          [Op.gte]: startDate,
-        };
-      if (endDate)
-        includePurchase.where.purchaseDate = {
-          ...(includePurchase.where.purchaseDate || {}),
-          [Op.lte]: endDate,
-        };
-      includePurchase.required = true;
-    }
-
-    const baseIncludes = [includeGrade, includePurchase, includeSieve];
+    const baseIncludes = [includeGrade, includeSieve];
 
     // ----- SEARCH: put association searches into include.where (not top-level) -----
     const topLevelOr = [];
@@ -3618,9 +3591,12 @@ export const allocDeallocPacketsExcel = async (req, res) => {
                  //check size exist or not via meta                  
                   const lotId = Number(item.lot_id);
                   const shape = await Shape.findOne({where: { shape: item.shape }});
+                  const shapeId = shape?.id ? shape.id : null;
                   const color = await Color.findOne({where: { color: item.color }});
+                  const colorId = color?.id ? color.id : null;
                   const clarity = await Clarity.findOne({where: { clarity: item.clarity }});
-                  const grade = await DiamondGrade.findOne({where: { shape: shape?.id, color: color?.id, clarity: clarity?.id }});
+                  const clarityId = clarity?.id ? clarity.id : null;
+                  const grade = await DiamondGrade.findOne({where: { shape: shapeId, color: colorId, clarity: clarityId }});
                  
                   //Check Grade Exists or Not
                   if(!grade){
@@ -3716,7 +3692,7 @@ export const allocDeallocPacketsExcel = async (req, res) => {
 
               if(errors.length > 0){
                 await t.rollback();
-                return errorResponse(res, 5001, errors);
+                return errorResponse(res, 5029, errors);
               }else{
                  await t.commit();
                 return successResponse(res, 5001);
@@ -3735,6 +3711,86 @@ export const allocDeallocPacketsExcel = async (req, res) => {
   }
 };
 
+
+export const getDiamondsForExcel = async (req, res) => {
+  try {
+    const {
+      shapeId,
+      colorId,
+      clarityId,
+      sieveSizeId    
+    } = req.query;
+
+    const where = {};
+
+    if (sieveSizeId) where.sieveSize = sieveSizeId;
+
+    // --- includes with placeholders for include-specific search ORs ---
+    const includeGrade = {
+      model: DiamondGrade,
+      as: 'gradeDetail',
+      attributes: ['id', 'code', 'shape', 'color', 'clarity'],
+      required: false,
+      include: [
+        {
+          model: Shape,
+          as: 'shapeDetail',
+          attributes: ['id', 'shape'],
+          required: false,
+        },
+        {
+          model: Color,
+          as: 'colorDetail',
+          attributes: ['id', 'color'],
+          required: false,
+        },
+        {
+          model: Clarity,
+          as: 'clarityDetail',
+          attributes: ['id', 'clarity'],
+          required: false,
+        },
+      ],
+    };
+    
+    const includePackets = {
+      model: DiamondPacket,
+      as: 'packets',
+      attributes: { exclude: ['deletedAt','createdAt', 'updatedAt', 'status_id', 'current_status'] },
+      required: true,
+    };
+
+    // param filters that belong to includes
+    if (shapeId || colorId || clarityId) {
+      includeGrade.where = includeGrade.where || {};
+      if (shapeId) includeGrade.where.shape = shapeId;
+      if (colorId) includeGrade.where.color = colorId;
+      if (clarityId) includeGrade.where.clarity = clarityId;
+      includeGrade.required = true;
+    }
+
+    const includeSieve = {
+      model: SieveSize,
+      as: 'sieveSizeDetail',
+      attributes: ['id', 'size', 'shape_id'],
+      required: false,
+    };    
+
+    // const baseIncludes = [includeGrade, includeSieve, includePackets];
+    const baseIncludes = [includeGrade, includeSieve];
+    
+    const result = await DiamondLot.findAll({
+                              where,
+                              include: baseIncludes,                              
+                        });
+
+    return successResponse(res, 5002, result);     
+  } catch (err) {
+    console.error('getDiamondLots err', err);
+    return errorResponse(res, err.message || err, 500);
+  }
+};
+
 export default {
   addDiamond,
   getDiamonds,
@@ -3746,7 +3802,8 @@ export default {
   deallocatePacketsFromStore,
   getDiamondsGroupedByGrade,
   unpackDiamondsLot,
-  allocDeallocPacketsExcel
+  allocDeallocPacketsExcel,
+  getDiamondsForExcel
 };
 
 /**
@@ -3838,7 +3895,7 @@ const allocDeallocData = async (req, t, lotId, size, flag, needed) => {
     updData = { isAvailableForStore: true, availableSince: now, availableBy };    // for allocate
   } 
 
-  console.log('packetId :>> ', packetIds);
+  // console.log('packetId :>> ', packetIds);
   await DiamondPacket.update(
      updData,
     { where: { id: { [Op.in]: packetIds } }, transaction: t }

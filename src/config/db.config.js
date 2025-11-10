@@ -78,6 +78,9 @@ import Order_packet_detailModel from '../models/order_packet_detail.model.js';
 import order_paymentModel from '../models/order_payment.model.js';
 import Packet_status from '../models/packet_status.model.js';
 import Customer_address from '../models/customer_address.model.js';
+import GeneralEnquiryModel from '../models/GeneralEnquiry.model.js';
+import NewsletterSubscriberModel from '../models/newsletterSubscriber.model.js';
+import FaqsModel from '../models/faqs.model.js';
 
 //APP configration models
 db.Location = locationModel(sequelize, Sequelize);
@@ -92,6 +95,9 @@ db.Roles = rolesModel(sequelize, Sequelize);
 db.SupplierCategory = supplierCategoryModel(sequelize, Sequelize);
 db.Order_status_caption = Order_status_caption(sequelize, Sequelize);
 db.Packet_status = Packet_status(sequelize, Sequelize);
+db.GeneralEnquiry = GeneralEnquiryModel(sequelize, Sequelize);
+db.NewsletterSubscriber = NewsletterSubscriberModel(sequelize, Sequelize);
+db.Faqs = FaqsModel(sequelize, Sequelize);
 
 //Functionality models
 db.AuditLog = auditLogModel(sequelize, Sequelize);

@@ -12,6 +12,7 @@ const {
   Color,
   Clarity,
   SieveSize,
+  DiamondGrade
 } = db;
 
 /**
@@ -665,10 +666,103 @@ const bulkPricePerCaratRegion = async (req, res) => {
   }
 };
 
+const getAllPricePerCTRegion = async (req, res) => {
+  try {
+    const regions = await Region.findAll();
+
+    const grade = await DiamondGrade.findAll({
+                      include: [
+                        {
+                          model: db.Shape,
+                          as: 'shapeDetail',
+                          attributes: ['id', 'shape'],
+                          include: [
+                            {
+                              model: db.SieveSize,
+                              as: 'sieveSizesDetail',
+                              attributes: ['id', 'shape_id','size']
+                            }
+                          ]
+                        },
+                        {
+                          model: db.Color,
+                          as: 'colorDetail',
+                          attributes: ['id', 'color']
+                        },
+                        {
+                          model: db.Clarity,
+                          as: 'clarityDetail',
+                          attributes: ['id', 'clarity']
+                        }
+                      ]
+                    });
+
+        const result = [];
+        for (const region of regions) {
+          for (const g of grade) {                      
+
+            for (const sieve of g.shapeDetail.sieveSizesDetail) {
+              const pricePerCT = await PricePerCaratRegion.findOne({
+                                  where: {
+                                    region: region.id,
+                                    shape: g.shapeDetail.id,
+                                    color: g.colorDetail.id,
+                                    clarity: g.clarityDetail.id,
+                                    sieveSize: sieve.id
+                                  }
+                                });
+              result.push({               
+                regionDetail: {
+                  id : region.id,
+                  name: region.name
+                },
+                shapeDetail: {
+                  id : g.shapeDetail.id,
+                  shape: g.shapeDetail.shape
+                },
+                colorDetail: {
+                  id : g.colorDetail.id,
+                  color: g.colorDetail.color
+                },
+                clarityDetail: {
+                  id : g.clarityDetail.id,
+                  clarity: g.clarityDetail.clarity
+                },
+                sieveSizeDetail: {
+                  id : sieve.id,
+                  size: sieve.size
+                },                
+                pricePerCt: pricePerCT?.price || 0
+              });
+            }
+
+          }
+        }
+
+        // const result = regions.flatMap(region =>
+        //   grade.flatMap(g =>
+        //     g.shapeDetail.sieveSizesDetail.map(sieve => ({
+        //       region: region.name,
+        //       regionId: region.id,
+        //       shape: g.shapeDetail.shape,
+        //       color: g.colorDetail.color,
+        //       clarity: g.clarityDetail.clarity,
+        //       sieveId: sieve.id,
+        //       sieveSize: sieve.size
+        //     }))
+        //   )
+        // );
+    return successResponse(res, 9159, result);
+  } catch (error) {
+    return errorResponse(res, 9999, error);
+  }
+}
+
 export default {
   getPricePerCaratRegion,
   addPricePerCaratRegion,
   updatePricePerCaratRegion,
   deletePricePerCaratRegion,
   bulkPricePerCaratRegion,
+  getAllPricePerCTRegion
 };

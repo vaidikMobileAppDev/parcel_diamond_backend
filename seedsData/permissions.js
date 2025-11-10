@@ -806,7 +806,7 @@ export default [
     "fields": [],
     "createdAt": "2025-10-27T09:01:35.458Z",
     "updatedAt": "2025-10-27T09:01:35.458Z"
-  },  
+  },
   {
     "id": "243",
     "role_id": "3",
@@ -827,4 +827,104 @@ export default [
     "createdAt": "2025-10-01T10:25:56.484Z",
     "updatedAt": "2025-10-01T10:25:56.484Z"
   },
+  {
+    "id": "261",
+    "role_id": "29",
+    "name": "api_v1_admin_enquiry--diamond_enquiry_add",
+    "frontend_path": "update frontend path",
+    "backend_path": "/api/v1/admin/enquiry--diamond_enquiry/add",
+    "fields": [],
+    "createdAt": "2025-11-07T05:12:04.151Z",
+    "updatedAt": "2025-11-07T05:12:04.151Z"
+  },
+  {
+    "id": "294",
+    "role_id": "29",
+    "name": "api_v1_admin_enquiry--diamond_enquiry_get",
+    "frontend_path": "update frontend path",
+    "backend_path": "/api/v1/admin/enquiry--diamond_enquiry/get",
+    "fields": [],
+    "createdAt": "2025-11-07T05:16:59.469Z",
+    "updatedAt": "2025-11-07T05:16:59.469Z"
+  },
+  {
+    "id": "295",
+    "role_id": "29",
+    "name": "api_v1_admin_enquiry--diamond_enquiry_delete",
+    "frontend_path": "update frontend path",
+    "backend_path": "/api/v1/admin/enquiry--diamond_enquiry/delete",
+    "fields": [],
+    "createdAt": "2025-11-07T05:17:05.516Z",
+    "updatedAt": "2025-11-07T05:17:05.516Z"
+  },
+  {
+    "id": "296",
+    "role_id": "32",
+    "name": "api_v1_admin_faqs_add",
+    "frontend_path": "update frontend path",
+    "backend_path": "/api/v1/admin/faqs/add",
+    "fields": [],
+    "createdAt": "2025-11-07T05:19:20.213Z",
+    "updatedAt": "2025-11-07T05:19:20.213Z"
+  },
+  {
+    "id": "297",
+    "role_id": "32",
+    "name": "api_v1_admin_faqs_get",
+    "frontend_path": "update frontend path",
+    "backend_path": "/api/v1/admin/faqs/get",
+    "fields": [],
+    "createdAt": "2025-11-07T05:19:24.413Z",
+    "updatedAt": "2025-11-07T05:19:24.413Z"
+  },
+  {
+    "id": "298",
+    "role_id": "32",
+    "name": "api_v1_admin_faqs_update",
+    "frontend_path": "update frontend path",
+    "backend_path": "/api/v1/admin/faqs/update",
+    "fields": [],
+    "createdAt": "2025-11-07T05:19:29.732Z",
+    "updatedAt": "2025-11-07T05:19:29.732Z"
+  },
+  {
+    "id": "299",
+    "role_id": "32",
+    "name": "api_v1_admin_faqs_delete",
+    "frontend_path": "update frontend path",
+    "backend_path": "/api/v1/admin/faqs/delete",
+    "fields": [],
+    "createdAt": "2025-11-07T05:19:35.276Z",
+    "updatedAt": "2025-11-07T05:19:35.276Z"
+  },
+  {
+    "id": "300",
+    "role_id": "31",
+    "name": "api_v1_admin_news_letter_get",
+    "frontend_path": "update frontend path",
+    "backend_path": "/api/v1/admin/news_letter/get",
+    "fields": [],
+    "createdAt": "2025-11-07T05:27:47.408Z",
+    "updatedAt": "2025-11-07T05:27:47.408Z"
+  },
+  {
+    "id": "245",
+    "role_id": "18",
+    "name": "api_v1_admin_configuration--price_per_carat_get-all-price-per-carat-region",
+    "frontend_path": "update frontend path",
+    "backend_path": "/api/v1/admin/configuration--price_per_carat/get-all-price-per-carat-region",
+    "fields": [],
+    "createdAt": "2025-11-10T06:27:39.764Z",
+    "updatedAt": "2025-11-10T06:27:39.764Z"
+  },
+  {
+    "id": "246",
+    "role_id": "2",
+    "name": "api_v1_admin_products--product_list_diamond_list-excel",
+    "frontend_path": "update frontend path",
+    "backend_path": "/api/v1/admin/products--product_list/diamond/list-excel",
+    "fields": [],
+    "createdAt": "2025-11-10T08:51:02.046Z",
+    "updatedAt": "2025-11-10T08:51:02.046Z"
+  }
 ];

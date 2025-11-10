@@ -51,4 +51,9 @@ routes.get(
   adminPanelAuth,
   productController.getPurchaseHistory
 );
+routes.get(
+  '/diamond/list-excel',
+  adminPanelAuth,
+  productController.getDiamondsForExcel
+);
 export default routes;

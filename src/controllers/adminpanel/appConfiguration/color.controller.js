@@ -8,9 +8,12 @@ const { Op, Color } = db;
 
 const getColor = async (req, res) => {
   try {
+    const { status } = req.query;
+    
     const allColor = await Color.findAll({
       where: {
         is_deleted: false,
+        ...(status && { status }),
       },
     });
     return successResponse(res, 9103, { allColor });
@@ -52,18 +55,16 @@ const updateColor = async (req, res) => {
       );
       return errorResponse(res, firstMessage);
     }
-    const { color, id } = req.body;
+    const { color, id, status } = req.body;
 
-    const addedClarity = await Color.update(
-      {
-        color: color,
-      },
-      {
-        where: {
-          id: id,
-        },
-      }
-    );
+    let updData = { color };
+
+    if(status){
+      updData = { ...updData, status };
+    }
+
+    await Color.update(updData, { where: { id: id } });
+
     return successResponse(res, 9116);
   } catch (error) {
     return errorResponse(res, 9999, error);
